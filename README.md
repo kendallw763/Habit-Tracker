@@ -16,3 +16,5 @@ Build Tool: Maven
 IDE: IntelliJ IDEA
 
 Containerization: Docker Compose
+
+Endpoint Testing: Postman
