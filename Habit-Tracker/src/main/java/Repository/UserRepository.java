@@ -1,4 +1,7 @@
-package Repository;
+package com.example.Habit.Tracker.Repositories;
 
-public class UserRepository {
-}
+import com.example.Habit.Tracker.Model.*;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+    public interface UserRepository extends JpaRepository<UserEntity, Long>{}
+
