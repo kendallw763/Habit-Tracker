@@ -12,16 +12,21 @@ public class HabitEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    @Getter @Setter
+    @Getter
     private Long id;
-    private String user, name, description;
-    private LocalDate createdAt;
 
+    @Getter @Setter
+    private String user, name, description;
+
+    @Getter
+    private LocalDate createdAt;
 
     @OneToMany(mappedBy = "HabitEntity", cascade = CascadeType.ALL)
     List<HabitEntity> habitEntity;
 
     @JoinColumn(name = "user_id")
     @ManyToOne
+
+    @Getter @Setter
     private UserEntity userEntity;
 }
