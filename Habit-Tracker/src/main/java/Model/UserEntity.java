@@ -12,11 +12,11 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     @Getter
-    @Setter
     private Long id;
-    private String username;
-    private String email;
 
+    @Getter @Setter
+    private String username, email;
+    
     @OneToMany(mappedBy = "UserEntity", cascade = CascadeType.ALL)
     private List<UserEntity> userEntity;
 }
