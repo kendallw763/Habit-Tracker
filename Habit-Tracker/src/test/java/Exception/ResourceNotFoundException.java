@@ -1,4 +1,7 @@
-package Exception;
+package com.example.Habit.Tracker.Exception;
 
-public class ResourceNotFoundException {
+public class ResourceNotFoundException extends RuntimeException {
+    public ResourceNotFoundException(String theUserWasNotFound) {
+
+    }
 }
