@@ -18,5 +18,12 @@ public class HabitService {
     public HabitEntity getHabitById(Long id){return habitRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Habit id not found"));}
 
+  public void deleteHabitById(Long id){
+        if(!habitRepository.existsById(id)){
+            throw new ResourceNotFoundException("Habit id does not exist");
+        }
+        habitRepository.deleteById(id);
+  }
+
     public List<HabitEntity> getAllHabits(){return habitRepository.findAll();}
 }
