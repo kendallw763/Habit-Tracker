@@ -20,6 +20,14 @@ public class HabitLogService {
     public HabitLogEntity getHabitLogById(Long id){return habitLogRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Habit log id not found"));}
 
+    //implement delete functionality
+    public void deleteHabitLogById(Long id){
+        if(!habitLogRepository.existsById(id)){
+            throw new ResourceNotFoundException("Habit log id does not exist");
+        }
+        habitLogRepository.deleteById(id);
+    }
+
     public List<HabitLogEntity> getAllHabitLogs(){return habitLogRepository.findAll();}
 
 }
