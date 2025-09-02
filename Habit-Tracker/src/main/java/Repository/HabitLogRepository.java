@@ -1,9 +1,8 @@
 package com.example.Habit.Tracker.Repositories;
 
-import com.example.Habit.Tracker.Model.HabitLogEntity;
+import com.example.Habit.Tracker.Model.HabitLog;
 import org.springframework.data.jpa.repository.JpaRepository;
-import java.util.List;
+import org.springframework.stereotype.Repository;
 
-public interface HabitLogRepository extends JpaRepository<HabitLogEntity, Long> {
-    List<HabitLogEntity> findByHabitId(Long id);
-}
+@Repository
+public interface HabitLogRepository extends JpaRepository<HabitLog, Long> {}
