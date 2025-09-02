@@ -1,29 +1,37 @@
 package com.example.Habit.Tracker.Service;
 
-import java.util.List;
-import org.springframework.stereotype.Service;
-import com.example.Habit.Tracker.Model.HabitEntity;
+import com.example.Habit.Tracker.Model.Habit;
 import com.example.Habit.Tracker.Repositories.HabitRepository;
 import com.example.Habit.Tracker.Exception.ResourceNotFoundException;
+import org.springframework.stereotype.Service;
+import java.util.List;
 
 @Service
 public class HabitService {
 
-    HabitRepository habitRepository;
+    private final HabitRepository habitRepository;
 
-    public HabitService (HabitRepository habitRepository) {this.habitRepository = habitRepository;}
+    public HabitService(HabitRepository habitRepository) {
+        this.habitRepository = habitRepository;
+    }
 
-    public HabitEntity createHabit(HabitEntity habitEntity){return habitRepository.save(habitEntity);}
+    public Habit createHabit(Habit habit) {
+        return habitRepository.save(habit);
+    }
 
-    public HabitEntity getHabitById(Long id){return habitRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Habit id not found"));}
+    public Habit getHabitById(Long id) {
+        return habitRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Habit not found"));
+    }
 
-  public void deleteHabitById(Long id){
-        if(!habitRepository.existsById(id)){
-            throw new ResourceNotFoundException("Habit id does not exist");
+    public List<Habit> getAllHabits() {
+        return habitRepository.findAll();
+    }
+
+    public void deleteHabitById(Long id) {
+        if (!habitRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Habit not found");
         }
         habitRepository.deleteById(id);
-  }
-
-    public List<HabitEntity> getAllHabits(){return habitRepository.findAll();}
+    }
 }
