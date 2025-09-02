@@ -1,33 +1,37 @@
 package com.example.Habit.Tracker.Service;
 
-import java.util.List;
-import org.springframework.stereotype.Service;
-import com.example.Habit.Tracker.Model.HabitLogEntity;
+import com.example.Habit.Tracker.Model.HabitLog;
 import com.example.Habit.Tracker.Repositories.HabitLogRepository;
 import com.example.Habit.Tracker.Exception.ResourceNotFoundException;
+import org.springframework.stereotype.Service;
+import java.util.List;
 
 @Service
 public class HabitLogService {
 
-    HabitLogRepository habitLogRepository;
+    private final HabitLogRepository habitLogRepository;
 
-    public HabitLogService (HabitLogRepository habitLogRepository)
-    {this.habitLogRepository = habitLogRepository;}
+    public HabitLogService(HabitLogRepository habitLogRepository) {
+        this.habitLogRepository = habitLogRepository;
+    }
 
-    public HabitLogEntity createHabitLog(HabitLogEntity habitLogEntity)
-    {return habitLogRepository.save(habitLogEntity);}
+    public HabitLog createHabitLog(HabitLog habitLog) {
+        return habitLogRepository.save(habitLog);
+    }
 
-    public HabitLogEntity getHabitLogById(Long id){return habitLogRepository.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("Habit log id not found"));}
+    public HabitLog getHabitLogById(Long id) {
+        return habitLogRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("HabitLog not found"));
+    }
 
-    //implement delete functionality
-    public void deleteHabitLogById(Long id){
-        if(!habitLogRepository.existsById(id)){
-            throw new ResourceNotFoundException("Habit log id does not exist");
+    public List<HabitLog> getAllHabitLogs() {
+        return habitLogRepository.findAll();
+    }
+
+    public void deleteHabitLogById(Long id) {
+        if (!habitLogRepository.existsById(id)) {
+            throw new ResourceNotFoundException("HabitLog not found");
         }
         habitLogRepository.deleteById(id);
     }
-
-    public List<HabitLogEntity> getAllHabitLogs(){return habitLogRepository.findAll();}
-
 }
