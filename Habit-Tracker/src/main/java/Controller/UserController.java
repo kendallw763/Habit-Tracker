@@ -1,38 +1,76 @@
 package com.example.Habit.Tracker.Controller;
 
-import org.springframework.http.ResponseEntity;
-import com.example.Habit.Tracker.Model.UserEntity;
+import com.example.Habit.Tracker.Dto.UserDto;
+import com.example.Habit.Tracker.Model.User;
 import com.example.Habit.Tracker.Service.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
 
     private final UserService userService;
-    public UserController (UserService userService){
+
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
-  @PostMapping
-    public UserEntity createUser(@RequestBody UserEntity user){
-            return userService.createUser(user);
+    // Helper to map entity to DTO
+    private UserDto toDto(User user) {
+        UserDto dto = new UserDto();
+        dto.setId(user.getId());
+        dto.setUsername(user.getUsername());
+        dto.setEmail(user.getEmail());
+        return dto;
     }
 
-  @GetMapping("/{id}")
-    public UserEntity getUserById(@PathVariable Long id){return userService.getUserById(id);}
 
-  @DeleteMapping("/users/{id}")
-    public ResponseEntity<Void> deleteUserById(@PathVariable Long id){userService.deleteUserById(id);
-            return ResponseEntity.noContent().build();
+    @PostMapping
+    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
+        User user = new User();
+        user.setUsername(userDto.getUsername());
+        user.setEmail(userDto.getEmail());
+        User saved = userService.createUser(user);
+        return ResponseEntity.ok(toDto(saved));
     }
 
-    @GetMapping()
-    public List<UserEntity>getAllUsers(){
-            return userService.getAllUsers();
+    // Get user by ID
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
+        User user = userService.getUserById(id);
+        return ResponseEntity.ok(toDto(user));
+    }
+
+    // Get all users
+    @GetMapping
+    public ResponseEntity<List<UserDto>> getAllUsers() {
+        List<UserDto> users = userService.getAllUsers()
+                .stream().map(this::toDto).collect(Collectors.toList());
+        return ResponseEntity.ok(users);
+    }
+
+    // Update user
+    @PutMapping("/{id}")
+    public ResponseEntity<UserDto> updateUser(
+            @PathVariable Long id,
+            @RequestBody UserDto updatedUser
+    ) {
+        User user = userService.getUserById(id);
+
+        if (updatedUser.getUsername() != null) user.setUsername(updatedUser.getUsername());
+        if (updatedUser.getEmail() != null) user.setEmail(updatedUser.getEmail());
+
+        User saved = userService.createUser(user);
+        return ResponseEntity.ok(toDto(saved));
+    }
+
+    // Delete user
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUserById(@PathVariable Long id) {
+        userService.deleteUserById(id);
+        return ResponseEntity.noContent().build();
     }
 }
