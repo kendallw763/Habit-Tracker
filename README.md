@@ -81,4 +81,10 @@ Delete habit log by Id
 
 <img width="1166" height="93" alt="delete_habit_log_by_id" src="https://github.com/user-attachments/assets/4e307492-2754-4112-ad5b-a53797474e3b" />
 
+## Front end Set Up
+<img width="1904" height="1047" alt="Web page" src="https://github.com/user-attachments/assets/14155447-f8a6-41f1-b844-28b1a794b0b5" />
+
+<img width="358" height="150" alt="React run" src="https://github.com/user-attachments/assets/fe0522f0-c2e1-42e5-8a28-9e3b90d66d9b" />
+
+
 
